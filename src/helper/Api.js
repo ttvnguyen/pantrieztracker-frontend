@@ -1,10 +1,10 @@
-// const INVENTORY_URL = 'https://pantrytracker.herokuapp.com'
-// const LOAD_IMAGE_URL = 'https://pantrytracker.herokuapp.com/gallery/'
-// const VIEW_IMAGE_URL = 'https://pantrytracker.herokuapp.com/media/'
+const INVENTORY_URL = 'https://pantrytracker.herokuapp.com'
+const LOAD_IMAGE_URL = 'https://pantrytracker.herokuapp.com/gallery/'
+const VIEW_IMAGE_URL = 'https://pantrytracker.herokuapp.com/media/'
 
-const INVENTORY_URL = 'http://localhost:8000'
-const LOAD_IMAGE_URL = 'http://localhost:8000/gallery/'
-const VIEW_IMAGE_URL = 'http://localhost:8000/media/'
+// const INVENTORY_URL = 'http://localhost:8000'
+// const LOAD_IMAGE_URL = 'http://localhost:8000/gallery/'
+// const VIEW_IMAGE_URL = 'http://localhost:8000/media/'
 
 
 const defaultQuery = {
