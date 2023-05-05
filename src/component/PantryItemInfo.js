@@ -1,6 +1,6 @@
 import React, { PureComponent } from "react";
 import PropTypes from "prop-types";
-import { ScrollView, StyleSheet, View, TouchableWithFeedback, TouchableWithoutFeedback, Text } from "react-native";
+import { SafeAreaView, StyleSheet, View, TouchableWithFeedback, TouchableWithoutFeedback, Text } from "react-native";
 import Icon from "react-native-vector-icons/Feather";
 import FastImage from "react-native-fast-image";
 import { getDeleteInventoryUrl } from "../helper/Api"
@@ -22,14 +22,16 @@ class PantryItemInfo extends PureComponent {
     const { item, navigation, onRefresh } = this.props;
     
     return (
-      <ScrollView style={{ marginHorizontal: 16, marginVertical: 8 }}>
+      <SafeAreaView bounces={false} 
+      alwaysBounceVertical={false}
+      style={{ marginHorizontal: 16, marginVertical: 8 }}>
         <TouchableWithoutFeedback
           onPress={() => {
               navigation.navigate("PantryUpdate", { item: item, addItem : false });
           }}
         >
-        <View key={item.category} style={styles.card}>
-            <Text style={styles.desc}>Description: {item.item}</Text>                        
+        <View key={item.category} style={_styles.card}>
+            <Text style={_styles.desc}>Description: {item.item}</Text>                        
             <Text>Quantity: {item.qty}</Text>
           <View>               
               <View>
@@ -45,7 +47,7 @@ class PantryItemInfo extends PureComponent {
           <Text>Expiry: {item.expiry}</Text>
           </View>
         </TouchableWithoutFeedback>
-      </ScrollView>
+      </SafeAreaView>
     );
   }
 }
@@ -58,7 +60,7 @@ PantryItemInfo.propTypes = {
   onRefresh: PropTypes.func
 };
 
-const styles = StyleSheet.create({
+const _styles = StyleSheet.create({
   card: {
       borderWidth:2,
       borderColor: 'black',
@@ -72,3 +74,4 @@ const styles = StyleSheet.create({
       fontWeight: '400'
   }
 })
+

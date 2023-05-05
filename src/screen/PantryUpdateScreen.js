@@ -1,14 +1,17 @@
 import React, { Component, useCallback } from "react";
 import PropTypes from "prop-types";
-import { Text, TextInput, View, Pressable, ScrollView, Alert, StyleSheet, Button, ImageBackground, Platform } from "react-native";
+import { Text, TextInput, View, Pressable, ScrollView, Alert, StyleSheet, Button, Image, ImageBackground, Platform } from "react-native";
 
-import { black, white } from "../helper/Color";
+import { black, white, orange } from "../helper/Color";
 import BackIcon from "../component/Utils/BackIcon";
 import NumericInput from "react-native-numeric-input";
 import DateTimePickerEvent from "@react-native-community/datetimepicker";
 import {launchImageLibrary} from 'react-native-image-picker';
 import { getAddUpdateInventoryUrl, loadImageUrl, 
   viewImageUrl } from './../helper/Api';
+import { normalize } from "../helper/FontSize" 
+import MenuIcon from "../assets/icons/camera-img.png";
+import FastImage from "react-native-fast-image";
 
 class PantryUpdateScreen extends Component{
     constructor(props) {
@@ -19,10 +22,11 @@ class PantryUpdateScreen extends Component{
       this.state = {
         item: "",
         qty: 0,
-        image: "Pick an Image",
         category: "",
         expiry: new Date(),
-        image_url: this.defaultImage()
+        image_url: this.defaultImage(),
+        button_text: "Pick an Image",
+        button_image: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAHkAAAB5CAMAAAAqJH57AAAAq1BMVEX///8tPlAAe78oOk1UX20iNkodMka2vMFXYWz///3h5OWvtLoUK0IlOEsAe8FclcsuiMEAdbwAcLv0+Pmmq7EAfL3EyMzp6+wAecPZ6vIAIjzn8vW10ud8sdlSl85Pj8hcntGaw+DL4O9xo9KSu9wAbbyny95yqtahxNxganY6icZLV2nF1+s7SFljo83P3uhseIN+h5EAGTWWnaPQ1dgAEC5CUF2KkpoADjMYUM1aAAAE5UlEQVRoge2Zi3aqOBSGAwicAGYMqChab61jtbXV6tTz/k82OxAsCXokCM6atfhXbxLgY+8k+0IRatSoUaNGjRo1atTofyv8Xz/A44QxwqPx02Q6nc7miwA+P8h4AC2edUopITrx6eZl9Civ49HMp6Q30HWd6PqA+GT+EDTGY5/qsXrJL536k+ABDsfzpQ5uZganTwB/kVHdWIz/XnKaTp8WhNvdG/RG9VqN8dDndurLFXzSU7MpOLxWctAhvdjVur8CEqAJR/uvpW6IcBg6txTCia9+PMfg6mccXzckhC80AptL2ezAXWuGeUNRF07cDLhzZ/G0sq1NuNX+izrZeYvahnZDRhQi/E65q2ecAujP5BghHWWLHbN9C8vIW2B9+IS52n/GbJXDN/Pwgg5ih9NPNZsxbpkFwJq1g/W1iV3LwCjoTOFnbwH4YeIIOlf0dt8qAtasLoTNHltO9IM975T+BdCNv0DM4TF5pcRFaF+Q7KZ7iExGOJhQRkadgQ9Wj5PFPVG0+VeRWQayjdAnj5qz0YyShAzpavGaRBc6VSLjwmSw+TOeZgglG9rTCSdDsiRlbM6TDdOyrPzT8HlOgzaIk8+iMyVfy+T21/fBtbvrL3nBW3u2tvWMZLL/cofNhrd2kuPByRPJ7RYcnQ3IdTJ9V0pXItk7/NRUtmS1FSA0p9fJRFfL0QIZPHo+jpErWu31ERr9wdv0WS1DZ8mGIU7UTrDahIlGT/QamQw+lUwWyLB8BR0j0egwTopXyHSlmDCyZDOUBqWJPsAcvC7PO4tFT05mQVW1EsuQjW95UHS34TmAXp3rnxlc3eH5mizfVZNzltySh05iSDdbLB9vaLqWJ7NJOsnLsaLFArn9Jg/upY3lnRh6xYtAQvgeI5SO1cs/YVcF0mBLrlRY8MZ4DrE6rfIZ2J8MS5S8wtruC40pDqQwlqCBPVr1/LirAlG6GeMyPR2Qz4aZa7El7ubJWnSIS87R+KPD7O51nhbKzDxZi/pZsnOxZIjWbIWzcmg0HA5ZHVaywhfImsfyBbstfIVvl+sz09vH+z72cCk/XyIbrPJIbnXcXi0MTW/XDzN3qIIMVv+ynSAI+zu5ODAiK8s233YH1+2eWm5VZK1tGdutZsoGm9+hK8x7XLpYVuSWBOfJ1zx8RGh9oWLz6iabLHMfL8x87eRtvKJ2+X1WN9mz45PDh9ts7viuPeSiWr1kw0t3b/Atn1wvmfXsfNfakTRWKzmuVdJ4AYlTjDx1kqNj5vzjV602G56xPUcx1tb8nI3WZo1kgxX14T6ZUsMQKxXnn/rIBlRFzMpu7Fj2FILETr9SsuXEYGhvIsuMTnIaDNt1kb3umXXc79x8/j1Y9ZCtnVhm5GoOLIST6sjGVm5x8rI9gVxJHRYvqNt3ypTolZGzm/e6+l7l5Hauqbusn0RdFTlyil3lVE32urcvSHTuMqshs+6moM7hpBJykQ11VtpzVUK25Aj9R3F3Q4V2N5l1iQqyrarI1knxygrIyWKxDn23y+S6rl1A/E1GBWQt6ZOKKi1ZqiCXU3ly4Xf6NZAL/h/jiqAwLU227yAb2m/5TVZxYbS9w93t4gH3go5yx6Kg3wWT2xXZXqHXBhfEu9vy6n97pqGstre9F4xRYO9aylp3FXJbo0aNGjVq1KhRo0aN6tG/tSJc7xsH4+0AAAAASUVORK5CYII="
       }
     }
     else {
@@ -30,10 +34,12 @@ class PantryUpdateScreen extends Component{
         id: item.id.toString(),
         item: item.item,
         qty: item.qty,
-        image: item.image,
+        // image: item.image,
         category: item.category,
         expiry: item.expiry,
-        image_url: item.image
+        image_url: item.image,
+        button_text: "Pick an Image",
+        button_image: item.image
         // isLoaded: false,
       };
     }
@@ -54,7 +60,7 @@ class PantryUpdateScreen extends Component{
         body: fdata
       }).then(response => {
           if (!response.ok) {
-              Alert.alert(`ERRD ${this.state.image} ${viewImageUrl('1')}`); 
+              Alert.alert(`ERRD ${this.state.image_url} ${viewImageUrl('1')}`); 
           }
           // resp = response.blob()._j._data;
           const resp = response.headers;
@@ -69,31 +75,32 @@ class PantryUpdateScreen extends Component{
           }
         }
         ).catch(err => {
-          Alert.alert(`ERRC ${this.stage.image}`);
+          Alert.alert(`ERRC ${this.stage.image_url}`);
         })
     }
     else {
-      this.setState({image_urls:this.defaultImage()});
+      this.setState({image_url :this.defaultImage()});
     }
   }
 
   defaultImage = () => {
     // console.log(`IN defaultImage ${this.state.image} `)
     return  (this.props.route.params.addItem ?
-      viewImageUrl('1') : this.state.image);
+      viewImageUrl('1') : this.state.image_url);
   }
   
   addUpdateItem = async (newItem) => {
     const image_urls = [];
     await Promise.all([this.loadImageToDB()]).then(
-      ret => { console.log(`HERE ${this.state.image_url.length}`)
+      ret => { 
+        // console.log(`HERE ${this.state.image_url.length}`)
         this.runAddUpdate(newItem)
     }
       ).catch(err => console.error(err))
   }
 
   runAddUpdate = async(newItem) => {
-    console.log(`addup ${this.state.image_url}`)
+    // console.log(`addup ${this.state.image_url}`)
     url =  (newItem ? getAddUpdateInventoryUrl(newItem, null) :
                       getAddUpdateInventoryUrl(newItem, this.state.id));
     
@@ -138,6 +145,8 @@ class PantryUpdateScreen extends Component{
       (response) => {
         if (!response.didCancel && !response.error) {
           this.imageField = response.assets[0];
+          this.setState({button_text : "Image Picked"})
+          this.setState({button_image : this.imageField.uri})
           // Alert.alert(`URI: ${this.imageField.uri}`)
         }
         else {
@@ -159,6 +168,7 @@ class PantryUpdateScreen extends Component{
     const { item, addItem } = this.props.route.params;
     const navigation = this.props.navigation;
     const action = (addItem ? "Add" : "Update")
+    // Alert.alert(`IN RENDER ${this.state.button_image}`)
     return (
      <View>
       <View>
@@ -170,42 +180,63 @@ class PantryUpdateScreen extends Component{
         <View style={_styles.titleBar} />
       </View>
       <View style={{padding: 10}}>
-        <Text>Item</Text>
+        <Text style={_styles.desc}>Item</Text>
       <TextInput
-        style={{height: 40, borderWidth: 1}}
+        style={_styles.card}
         placeholder={this.state.item}
         onChangeText={newText =>{this.state.item = newText}}
         defaultValue={this.state.item}
       />
-        <Text>Category</Text>
+        <Text style={_styles.desc}>Category</Text>
       <TextInput
-        style={{height: 40, borderWidth: 1}}
+        style={_styles.card}
         placeholder={this.state.category}
         onChangeText={newText =>{this.state.category = newText}}
         defaultValue={this.state.category}
       />
-      <Text>Quantity</Text>
+      <Text style={_styles.desc}>Quantity</Text>
       <NumericInput
         style={{height: 40, borderWidth: 1}}
         value={this.state.qty}
         onChange={value =>{this.state.qty = value}}
         defaultValue={this.state.qty}
       />
-      <Button title={this.state.image}
-      style={{backgroundImage: "url(`${this.imageField.uri}`"}}
+      {/* <Button title={this.state.button_text} 
         onPress={() => 
           this.pickImagePress()
         }
-        /> 
-      <Text>Expiry</Text>
-      <DateTimePickerEvent
+        style={{backgroundImage : `url("https://pantrytracker.herokuapp.com/media/images/657053CB-8079-4AD5-ABF9-9BAF957BC8D3.png")`,
+      height: 500}
+      }
+        ></Button> */}
+        <Pressable onPress={() => 
+        this.pickImagePress()}> 
+      <Text>pick an Image</Text>
+      {/* <ImageBackground source={{uri: 'https://pantrytracker.herokuapp.com/media/images/657053CB-8079-4AD5-ABF9-9BAF957BC8D3.png'}}
+       style={{width: 40, height: 40}} /> */}
+             <ImageBackground source={{uri: this.state.button_image}}
+       style={{width: 100, height: 100, color: orange}}/>
+        {/* <Image source={{uri :"https://pantrytracker.herokuapp.com/media/images/657053CB-8079-4AD5-ABF9-9BAF957BC8D3.png"}} /> */}
+        {/* <Image source={{uri :"https://pantrytracker.herokuapp.com/media/images/657053CB-8079-4AD5-ABF9-9BAF957BC8D3.png"}} /> 
+        <Image   style={{margin: -1}} source = {{uri: `"${this.state.button_image}"`}} /> */}
+        {/* // source={{uri : 'http://localhost:8000/gallery/image/2'}} /> */}
+        </Pressable>
+      <Text style={_styles.desc}>Expiry</Text>
+      <DateTimePickerEvent  
+      onDateChange= {async (event, selectedExpiry) => {
+        if (selectedExpiry) {
+          this.setState({ expiry : selectedExpiry});
+          console.log(`datepick ${selectedExpiry} ${this.state.expiry}`)
+        }
+      }}
+        //   currentExpiry = selectedExpiry || this.state.expiry; 
+        // 
         // value={new Date('2023-12-23')}
         value={new Date(this.state.expiry)}
-        onChange= {(event, selectedExpiry) => {
-          currentExpiry = selectedExpiry || this.state.expiry; 
-          this.state.expiry = currentExpiry;
-        // defaultValue={new Date()}
-      }}
+        // onChange= {(event, selectedExpiry) => {
+        //   currentExpiry = selectedExpiry || this.state.expiry; 
+        //   this.state.expiry = currentExpiry;
+        defaultValue={new Date()}
       />
     </View>
     <Button title={action} onPress={() => this.addUpdateItem(addItem)} />
@@ -221,38 +252,38 @@ PantryUpdateScreen.propTypes = {
   navigation: PropTypes.object,
 };
 
-const Styles = StyleSheet.create({
+const _styles = StyleSheet.create({
+  headerTitle: {
+    fontFamily: "Montserrat-Bold",
+    fontSize: normalize(18),
+    flex: 8,
+    textAlign: "center",
+    alignSelf: "center",
+    margin: 16,
+    marginBottom: 0,
+  },
+
+  titleBar: {
+    width: 240,
+    height: 5,
+    backgroundColor: orange,
+    marginTop: 2,
+    marginBottom: 12,
+    alignSelf: "center",
+  },
   card: {
       borderWidth:2,
       borderColor: 'black',
-      borderRadius:10,
+      borderRadius:5,
       margin:10,
       padding:10
   },
   desc:{
       color: 'black',
-      fontSize: 22,
+      fontSize: 18,
       fontWeight: '400'
   }
-})
-
-const _styles = StyleSheet.create({
-  headerTitle: {
-    fontFamily: "Montserrat-Bold",
-    fontSize: 20,
-    flex: 8,
-    textAlign: "center",
-    alignSelf: "center",
-  },
-
-  titleBar: {
-    width: 40,
-    height: 5,
-    backgroundColor: white,
-    marginTop: 4,
-    marginBottom: 12,
-    alignSelf: "center",
-  },
 });
+
 
 

@@ -116,7 +116,7 @@ const Styles = StyleSheet.create({
   },
 
   titleBar: {
-    width: 30,
+    width: 270,
     height: 5,
     backgroundColor: orange,
     marginTop: 2,
