@@ -5,7 +5,7 @@ import { FlatList, Text } from "react-native";
 import PantryItemInfo from "./PantryItemInfo";
 const PantryList = ({ results, navigation, onReachEnd, onRefresh }) => {
   return (
-    <FlatList
+    <FlatList bounces={false}
       keyExtractor={(item) => item.id.toString()}
       keyboardShouldPersistTaps={"handled"}
       data={results}

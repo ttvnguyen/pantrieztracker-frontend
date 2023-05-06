@@ -9,7 +9,8 @@ import DateTimePickerEvent from "@react-native-community/datetimepicker";
 import {launchImageLibrary} from 'react-native-image-picker';
 import { getAddUpdateInventoryUrl, loadImageUrl, 
   viewImageUrl } from './../helper/Api';
-import { normalize } from "../helper/FontSize" 
+import { normalize } from "../helper/FontSize"
+import Icon from "react-native-vector-icons/Feather"; 
 import MenuIcon from "../assets/icons/camera-img.png";
 import FastImage from "react-native-fast-image";
 
@@ -17,6 +18,8 @@ class PantryUpdateScreen extends Component{
     constructor(props) {
     super(props);
     const { item, addItem } = this.props.route.params;
+    
+
 
     if (addItem) {
       this.state = {
@@ -26,7 +29,8 @@ class PantryUpdateScreen extends Component{
         expiry: new Date(),
         image_url: this.defaultImage(),
         button_text: "Pick an Image",
-        button_image: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAHkAAAB5CAMAAAAqJH57AAAAq1BMVEX///8tPlAAe78oOk1UX20iNkodMka2vMFXYWz///3h5OWvtLoUK0IlOEsAe8FclcsuiMEAdbwAcLv0+Pmmq7EAfL3EyMzp6+wAecPZ6vIAIjzn8vW10ud8sdlSl85Pj8hcntGaw+DL4O9xo9KSu9wAbbyny95yqtahxNxganY6icZLV2nF1+s7SFljo83P3uhseIN+h5EAGTWWnaPQ1dgAEC5CUF2KkpoADjMYUM1aAAAE5UlEQVRoge2Zi3aqOBSGAwicAGYMqChab61jtbXV6tTz/k82OxAsCXokCM6atfhXbxLgY+8k+0IRatSoUaNGjRo1atTofyv8Xz/A44QxwqPx02Q6nc7miwA+P8h4AC2edUopITrx6eZl9Civ49HMp6Q30HWd6PqA+GT+EDTGY5/qsXrJL536k+ABDsfzpQ5uZganTwB/kVHdWIz/XnKaTp8WhNvdG/RG9VqN8dDndurLFXzSU7MpOLxWctAhvdjVur8CEqAJR/uvpW6IcBg6txTCia9+PMfg6mccXzckhC80AptL2ezAXWuGeUNRF07cDLhzZ/G0sq1NuNX+izrZeYvahnZDRhQi/E65q2ecAujP5BghHWWLHbN9C8vIW2B9+IS52n/GbJXDN/Pwgg5ih9NPNZsxbpkFwJq1g/W1iV3LwCjoTOFnbwH4YeIIOlf0dt8qAtasLoTNHltO9IM975T+BdCNv0DM4TF5pcRFaF+Q7KZ7iExGOJhQRkadgQ9Wj5PFPVG0+VeRWQayjdAnj5qz0YyShAzpavGaRBc6VSLjwmSw+TOeZgglG9rTCSdDsiRlbM6TDdOyrPzT8HlOgzaIk8+iMyVfy+T21/fBtbvrL3nBW3u2tvWMZLL/cofNhrd2kuPByRPJ7RYcnQ3IdTJ9V0pXItk7/NRUtmS1FSA0p9fJRFfL0QIZPHo+jpErWu31ERr9wdv0WS1DZ8mGIU7UTrDahIlGT/QamQw+lUwWyLB8BR0j0egwTopXyHSlmDCyZDOUBqWJPsAcvC7PO4tFT05mQVW1EsuQjW95UHS34TmAXp3rnxlc3eH5mizfVZNzltySh05iSDdbLB9vaLqWJ7NJOsnLsaLFArn9Jg/upY3lnRh6xYtAQvgeI5SO1cs/YVcF0mBLrlRY8MZ4DrE6rfIZ2J8MS5S8wtruC40pDqQwlqCBPVr1/LirAlG6GeMyPR2Qz4aZa7El7ubJWnSIS87R+KPD7O51nhbKzDxZi/pZsnOxZIjWbIWzcmg0HA5ZHVaywhfImsfyBbstfIVvl+sz09vH+z72cCk/XyIbrPJIbnXcXi0MTW/XDzN3qIIMVv+ynSAI+zu5ODAiK8s233YH1+2eWm5VZK1tGdutZsoGm9+hK8x7XLpYVuSWBOfJ1zx8RGh9oWLz6iabLHMfL8x87eRtvKJ2+X1WN9mz45PDh9ts7viuPeSiWr1kw0t3b/Atn1wvmfXsfNfakTRWKzmuVdJ4AYlTjDx1kqNj5vzjV602G56xPUcx1tb8nI3WZo1kgxX14T6ZUsMQKxXnn/rIBlRFzMpu7Fj2FILETr9SsuXEYGhvIsuMTnIaDNt1kb3umXXc79x8/j1Y9ZCtnVhm5GoOLIST6sjGVm5x8rI9gVxJHRYvqNt3ypTolZGzm/e6+l7l5Hauqbusn0RdFTlyil3lVE32urcvSHTuMqshs+6moM7hpBJykQ11VtpzVUK25Aj9R3F3Q4V2N5l1iQqyrarI1knxygrIyWKxDn23y+S6rl1A/E1GBWQt6ZOKKi1ZqiCXU3ly4Xf6NZAL/h/jiqAwLU227yAb2m/5TVZxYbS9w93t4gH3go5yx6Kg3wWT2xXZXqHXBhfEu9vy6n97pqGstre9F4xRYO9aylp3FXJbo0aNGjVq1KhRo0aN6tG/tSJc7xsH4+0AAAAASUVORK5CYII="
+        button_image: 
+        "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAHkAAAB5CAMAAAAqJH57AAAAq1BMVEX///8tPlAAe78oOk1UX20iNkodMka2vMFXYWz///3h5OWvtLoUK0IlOEsAe8FclcsuiMEAdbwAcLv0+Pmmq7EAfL3EyMzp6+wAecPZ6vIAIjzn8vW10ud8sdlSl85Pj8hcntGaw+DL4O9xo9KSu9wAbbyny95yqtahxNxganY6icZLV2nF1+s7SFljo83P3uhseIN+h5EAGTWWnaPQ1dgAEC5CUF2KkpoADjMYUM1aAAAE5UlEQVRoge2Zi3aqOBSGAwicAGYMqChab61jtbXV6tTz/k82OxAsCXokCM6atfhXbxLgY+8k+0IRatSoUaNGjRo1atTofyv8Xz/A44QxwqPx02Q6nc7miwA+P8h4AC2edUopITrx6eZl9Civ49HMp6Q30HWd6PqA+GT+EDTGY5/qsXrJL536k+ABDsfzpQ5uZganTwB/kVHdWIz/XnKaTp8WhNvdG/RG9VqN8dDndurLFXzSU7MpOLxWctAhvdjVur8CEqAJR/uvpW6IcBg6txTCia9+PMfg6mccXzckhC80AptL2ezAXWuGeUNRF07cDLhzZ/G0sq1NuNX+izrZeYvahnZDRhQi/E65q2ecAujP5BghHWWLHbN9C8vIW2B9+IS52n/GbJXDN/Pwgg5ih9NPNZsxbpkFwJq1g/W1iV3LwCjoTOFnbwH4YeIIOlf0dt8qAtasLoTNHltO9IM975T+BdCNv0DM4TF5pcRFaF+Q7KZ7iExGOJhQRkadgQ9Wj5PFPVG0+VeRWQayjdAnj5qz0YyShAzpavGaRBc6VSLjwmSw+TOeZgglG9rTCSdDsiRlbM6TDdOyrPzT8HlOgzaIk8+iMyVfy+T21/fBtbvrL3nBW3u2tvWMZLL/cofNhrd2kuPByRPJ7RYcnQ3IdTJ9V0pXItk7/NRUtmS1FSA0p9fJRFfL0QIZPHo+jpErWu31ERr9wdv0WS1DZ8mGIU7UTrDahIlGT/QamQw+lUwWyLB8BR0j0egwTopXyHSlmDCyZDOUBqWJPsAcvC7PO4tFT05mQVW1EsuQjW95UHS34TmAXp3rnxlc3eH5mizfVZNzltySh05iSDdbLB9vaLqWJ7NJOsnLsaLFArn9Jg/upY3lnRh6xYtAQvgeI5SO1cs/YVcF0mBLrlRY8MZ4DrE6rfIZ2J8MS5S8wtruC40pDqQwlqCBPVr1/LirAlG6GeMyPR2Qz4aZa7El7ubJWnSIS87R+KPD7O51nhbKzDxZi/pZsnOxZIjWbIWzcmg0HA5ZHVaywhfImsfyBbstfIVvl+sz09vH+z72cCk/XyIbrPJIbnXcXi0MTW/XDzN3qIIMVv+ynSAI+zu5ODAiK8s233YH1+2eWm5VZK1tGdutZsoGm9+hK8x7XLpYVuSWBOfJ1zx8RGh9oWLz6iabLHMfL8x87eRtvKJ2+X1WN9mz45PDh9ts7viuPeSiWr1kw0t3b/Atn1wvmfXsfNfakTRWKzmuVdJ4AYlTjDx1kqNj5vzjV602G56xPUcx1tb8nI3WZo1kgxX14T6ZUsMQKxXnn/rIBlRFzMpu7Fj2FILETr9SsuXEYGhvIsuMTnIaDNt1kb3umXXc79x8/j1Y9ZCtnVhm5GoOLIST6sjGVm5x8rI9gVxJHRYvqNt3ypTolZGzm/e6+l7l5Hauqbusn0RdFTlyil3lVE32urcvSHTuMqshs+6moM7hpBJykQ11VtpzVUK25Aj9R3F3Q4V2N5l1iQqyrarI1knxygrIyWKxDn23y+S6rl1A/E1GBWQt6ZOKKi1ZqiCXU3ly4Xf6NZAL/h/jiqAwLU227yAb2m/5TVZxYbS9w93t4gH3go5yx6Kg3wWT2xXZXqHXBhfEu9vy6n97pqGstre9F4xRYO9aylp3FXJbo0aNGjVq1KhRo0aN6tG/tSJc7xsH4+0AAAAASUVORK5CYII="
       }
     }
     else {
@@ -57,7 +61,7 @@ class PantryUpdateScreen extends Component{
       console.log(`loadImageURL ${loadImageUrl()}`)
       await fetch(loadImageUrl(), {
           method: 'post',
-        body: fdata
+          body: fdata
       }).then(response => {
           if (!response.ok) {
               Alert.alert(`ERRD ${this.state.image_url} ${viewImageUrl('1')}`); 
@@ -95,7 +99,7 @@ class PantryUpdateScreen extends Component{
       ret => { 
         // console.log(`HERE ${this.state.image_url.length}`)
         this.runAddUpdate(newItem)
-    }
+      }
       ).catch(err => console.error(err))
   }
 
@@ -175,71 +179,50 @@ class PantryUpdateScreen extends Component{
         <View style={{ flexDirection: "row", marginTop: 24 }}>
           <BackIcon style={{ flex: 1, paddingLeft: 12, alignSelf: "flex-start" }} navigation={navigation} />
           <Text style={_styles.headerTitle}>Pantry Tracker {action}</Text>
-          <View style={{ flex: 1, paddingRight: 12 }}></View>
+          {/* <View style={{ flex: 1, paddingRight: 12 }}></View> */}
         </View>
-        <View style={_styles.titleBar} />
-      </View>
+        <View style={_styles.titleBar} /></View>
+      
       <View style={{padding: 10}}>
         <Text style={_styles.desc}>Item</Text>
-      <TextInput
-        style={_styles.card}
-        placeholder={this.state.item}
-        onChangeText={newText =>{this.state.item = newText}}
-        defaultValue={this.state.item}
-      />
+        <TextInput
+          style={_styles.card}
+          placeholder={this.state.item}
+          onChangeText={newText =>{this.state.item = newText}}
+          defaultValue={this.state.item}
+        />
         <Text style={_styles.desc}>Category</Text>
-      <TextInput
-        style={_styles.card}
-        placeholder={this.state.category}
-        onChangeText={newText =>{this.state.category = newText}}
-        defaultValue={this.state.category}
-      />
-      <Text style={_styles.desc}>Quantity</Text>
-      <NumericInput
-        style={{height: 40, borderWidth: 1}}
-        value={this.state.qty}
-        onChange={value =>{this.state.qty = value}}
-        defaultValue={this.state.qty}
-      />
-      {/* <Button title={this.state.button_text} 
-        onPress={() => 
-          this.pickImagePress()
-        }
-        style={{backgroundImage : `url("https://pantrytracker.herokuapp.com/media/images/657053CB-8079-4AD5-ABF9-9BAF957BC8D3.png")`,
-      height: 500}
-      }
-        ></Button> */}
-        <Pressable onPress={() => 
-        this.pickImagePress()}> 
-      <Text>pick an Image</Text>
-      {/* <ImageBackground source={{uri: 'https://pantrytracker.herokuapp.com/media/images/657053CB-8079-4AD5-ABF9-9BAF957BC8D3.png'}}
-       style={{width: 40, height: 40}} /> */}
-             <ImageBackground source={{uri: this.state.button_image}}
-       style={{width: 100, height: 100, color: orange}}/>
-        {/* <Image source={{uri :"https://pantrytracker.herokuapp.com/media/images/657053CB-8079-4AD5-ABF9-9BAF957BC8D3.png"}} /> */}
-        {/* <Image source={{uri :"https://pantrytracker.herokuapp.com/media/images/657053CB-8079-4AD5-ABF9-9BAF957BC8D3.png"}} /> 
-        <Image   style={{margin: -1}} source = {{uri: `"${this.state.button_image}"`}} /> */}
-        {/* // source={{uri : 'http://localhost:8000/gallery/image/2'}} /> */}
+        <TextInput
+          style={_styles.card}
+          placeholder={this.state.category}
+          onChangeText={newText =>{this.state.category = newText}}
+          defaultValue={this.state.category}
+        />
+        <Text style={_styles.desc}>Quantity</Text>
+        <NumericInput
+          style={{height: 40, borderWidth: 1}}
+          value={this.state.qty}
+          onChange={value =>{this.state.qty = value}}
+          defaultValue={this.state.qty}
+        />
+        <Pressable onPress={() => this.pickImagePress()}> 
+          <Text style={_styles.desc}>Pick an Image</Text>
+          <ImageBackground source={{uri: this.state.button_image}}
+              style={{width: 100, height: 100, color: orange}}/>
         </Pressable>
-      <Text style={_styles.desc}>Expiry</Text>
-      <DateTimePickerEvent  
-      onDateChange= {async (event, selectedExpiry) => {
-        if (selectedExpiry) {
-          this.setState({ expiry : selectedExpiry});
-          console.log(`datepick ${selectedExpiry} ${this.state.expiry}`)
-        }
-      }}
-        //   currentExpiry = selectedExpiry || this.state.expiry; 
-        // 
-        // value={new Date('2023-12-23')}
-        value={new Date(this.state.expiry)}
-        // onChange= {(event, selectedExpiry) => {
-        //   currentExpiry = selectedExpiry || this.state.expiry; 
-        //   this.state.expiry = currentExpiry;
-        defaultValue={new Date()}
-      />
-    </View>
-    <Button title={action} onPress={() => this.addUpdateItem(addItem)} />
+        <Text style={_styles.desc}>Expiry</Text>
+        <DateTimePickerEvent  
+          onChange= {async (event, selectedExpiry) => {
+            if (selectedExpiry) {
+              this.setState({ expiry : selectedExpiry});
+              console.log(`datepick ${selectedExpiry} ${this.state.expiry}`)
+            }
+          }}
+          value={new Date(this.state.expiry)}
+          defaultValue={new Date()}
+        />
+      </View>
+      <Button title={action} onPress={() => this.addUpdateItem(addItem)} />
     </View>
     );
   }
@@ -255,7 +238,7 @@ PantryUpdateScreen.propTypes = {
 const _styles = StyleSheet.create({
   headerTitle: {
     fontFamily: "Montserrat-Bold",
-    fontSize: normalize(18),
+    fontSize: normalize(20),
     flex: 8,
     textAlign: "center",
     alignSelf: "center",

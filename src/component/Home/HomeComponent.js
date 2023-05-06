@@ -67,7 +67,8 @@ class HomeComponent extends Component {
   renderPantryList = () => {
     const { navigation, data } = this.props;
     filter=this.state.filter
-    data1 = data.filter(row => row.item.includes(filter))
+    data1 = data.filter(row => row.item.includes(filter)).sort((a,b)=> a.expiry > b.expiry ? 1:-1)
+    
     return ( 
       <View>
         <Text style={{ alignSelf: "center", fontSize: 20}}>Total Items: {data1.length}</Text>
